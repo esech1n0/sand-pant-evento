@@ -1,0 +1,79 @@
+@import "tailwindcss";
+@source "../**/*.astro";
+@import "@fontsource-variable/cormorant-garamond";
+@import "@fontsource-variable/inter";
+
+/* Única fuente de verdad para la paleta y tipografía. */
+@theme {
+  --color-ivory: #f8f5ef;
+  --color-sand: #e4d5c2;
+  --color-champagne: #a68b70;      /* Solo decorativo / texto grande */
+  --color-champagne-deep: #7a6249; /* Acento legible en texto pequeño (≈5.4:1 sobre marfil) */
+  --color-espresso: #302a26;
+  --color-muted: #5e5249;          /* Texto secundario (≈7:1 sobre marfil) */
+  --color-white: #ffffff;
+
+  --font-serif: "Cormorant Garamond Variable", Georgia, serif;
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-ivory text-espresso font-sans antialiased;
+  }
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-espresso);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+  .eyebrow {
+    @apply text-xs font-medium uppercase tracking-[0.22em] text-champagne-deep;
+  }
+  .heading-section {
+    @apply font-serif text-espresso font-medium leading-tight;
+    font-size: clamp(2rem, 1.4rem + 2.5vw, 3rem);
+  }
+  .btn {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-medium transition-colors duration-200;
+  }
+  /* Usar junto con .btn: class="btn btn-primary" */
+  .btn-primary {
+    @apply bg-espresso text-ivory hover:bg-[#4a413b];
+  }
+  .btn-outline {
+    @apply border border-espresso/30 text-espresso hover:border-espresso hover:bg-white;
+  }
+  .btn-disabled {
+    @apply cursor-not-allowed border border-dashed border-muted/60 text-muted;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

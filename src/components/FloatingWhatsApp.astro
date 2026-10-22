@@ -1,0 +1,43 @@
+---
+/**
+ * Botón flotante de WhatsApp (solo móvil). Se controla con site.features.floatingWhatsApp.
+ * Es independiente: desactivarlo o eliminarlo no afecta otras secciones.
+ * Se oculta cuando la sección de contacto está visible para no tapar sus botones.
+ */
+import { MessageCircle } from '@lucide/astro';
+import { site } from '../config/site';
+import { buildWhatsAppUrl } from '../lib/whatsapp';
+
+const url = site.features.floatingWhatsApp ? buildWhatsAppUrl('general') : null;
+---
+
+{url && (
+  <>
+    <div class="h-20 md:hidden" aria-hidden="true"></div>
+    <a
+      id="floating-whatsapp"
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="fixed bottom-4 right-4 z-30 inline-flex size-14 items-center justify-center rounded-full bg-espresso text-ivory shadow-lg transition-opacity duration-200 md:hidden"
+      aria-label="Cotizar por WhatsApp (abre WhatsApp en una pestaña nueva)"
+    >
+      <MessageCircle size={26} aria-hidden="true" />
+    </a>
+    <script>
+      const fab = document.getElementById('floating-whatsapp');
+      const targets = ['inicio', 'contacto'].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+      if (fab && targets.length && 'IntersectionObserver' in window) {
+        const visible = new Set<Element>();
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)));
+          const hide = visible.size > 0;
+          fab.classList.toggle('opacity-0', hide);
+          fab.classList.toggle('pointer-events-none', hide);
+          fab.toggleAttribute('inert', hide);
+        }, { threshold: 0.15 });
+        targets.forEach((t) => observer.observe(t));
+      }
+    </script>
+  </>
+)}

@@ -1,0 +1,43 @@
+﻿---
+import '../styles/global.css';
+import { site } from '../config/site';
+import { getImage } from 'astro:assets';
+import { heroImage } from '../data/gallery';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = `${site.siteName} | Detalles personalizados para eventos`, description = site.siteDescription } = Astro.props;
+const canonical = site.siteUrl ? new URL(Astro.url.pathname, site.siteUrl).href : undefined;
+const ogImage = await getImage({ src: heroImage.src, width: 1200, format: 'jpg' });
+const ogImageUrl = site.siteUrl ? new URL(ogImage.src, site.siteUrl).href : undefined;
+---
+
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#F8F5EF" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:site_name" content={site.siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded focus:bg-white focus:px-4 focus:py-2">
+      Saltar al contenido
+    </a>
+    <slot />
+  </body>
+</html>

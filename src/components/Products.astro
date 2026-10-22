@@ -1,0 +1,44 @@
+---
+import ProductCard from './ProductCard.astro';
+import { findGalleryItem } from '../data/gallery';
+
+const sandals = findGalleryItem('sandalias-boda-01');
+const slippers = findGalleryItem('pantuflas-boda-01');
+---
+
+<section id="productos" class="border-t border-sand/70 bg-ivory py-20 md:py-28">
+  <div class="container-page">
+    <div class="max-w-2xl">
+      <p class="eyebrow">Productos</p>
+      <h2 class="heading-section mt-4">Detalles personalizados para tu evento</h2>
+      <p class="mt-5 text-lg leading-relaxed text-muted">
+        Conoce los productos que preparamos para celebraciones y escríbenos para conversar sobre tu idea.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <ProductCard
+        title="Sandalias personalizadas"
+        description="Sandalias diseñadas para acompañar a tus invitados durante la celebración."
+        image={sandals.src}
+        alt={sandals.alt}
+        message="sandals"
+        ctaLabel="Preguntar por sandalias"
+      />
+      <ProductCard
+        title="Pantuflas personalizadas"
+        description="Pantuflas personalizadas como detalle para tu evento."
+        image={slippers.src}
+        alt={slippers.alt}
+        message="slippers"
+        ctaLabel="Preguntar por pantuflas"
+      />
+      <ProductCard
+        title="Otros productos para eventos"
+        description="Pregúntanos por otros detalles disponibles para tu celebración."
+        message="others"
+        ctaLabel="Conocer otros productos"
+      />
+    </div>
+  </div>
+</section>

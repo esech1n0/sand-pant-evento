@@ -1,0 +1,37 @@
+---
+import { MessageCircle } from '@lucide/astro';
+import { buildWhatsAppUrl } from '../lib/whatsapp';
+import type { WhatsAppMessageKey } from '../config/site';
+
+interface Props {
+  message?: WhatsAppMessageKey;
+  label?: string;
+  variant?: 'primary' | 'outline';
+  class?: string;
+  id?: string;
+}
+
+const { message = 'general', label = 'Cotizar por WhatsApp', variant = 'primary', class: className = '', id } = Astro.props;
+const url = buildWhatsAppUrl(message);
+// Sin número configurado: en desarrollo se muestra un aviso; en producción no se renderiza.
+const showPending = !url && import.meta.env.DEV;
+---
+
+{url ? (
+  <a
+    id={id}
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    class:list={['btn', variant === 'primary' ? 'btn-primary' : 'btn-outline', className]}
+    aria-label={`${label} (abre WhatsApp en una pestaña nueva)`}
+  >
+    <MessageCircle size={18} aria-hidden="true" />
+    {label}
+  </a>
+) : showPending ? (
+  <span id={id} class:list={['btn btn-disabled', className]} role="note" title="Configura whatsappNumber en src/config/site.ts">
+    <MessageCircle size={18} aria-hidden="true" />
+    WhatsApp pendiente de configurar
+  </span>
+) : null}

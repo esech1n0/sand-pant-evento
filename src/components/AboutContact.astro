@@ -1,0 +1,50 @@
+---
+import WhatsAppLink from './WhatsAppLink.astro';
+import { site } from '../config/site';
+---
+
+<section id="nosotros" class="border-t border-sand/70 bg-sand/35 py-20 md:py-28">
+  <div class="container-page max-w-3xl text-center">
+    <p class="eyebrow">Nosotros</p>
+    <!-- Texto propuesto: pendiente de validación por el propietario. -->
+    <h2 class="heading-section mt-4">Detalles que acompañan tus celebraciones</h2>
+    <p class="mt-6 text-lg leading-relaxed text-muted">
+      Creamos detalles personalizados para acompañar celebraciones especiales. Explora nuestros trabajos y
+      contáctanos para conversar sobre las opciones para tu evento.
+    </p>
+  </div>
+</section>
+
+<section id="contacto" class="border-t border-sand/70 bg-espresso py-20 text-ivory md:py-28">
+  <div class="container-page max-w-3xl text-center">
+    <p class="text-xs font-medium uppercase tracking-[0.22em] text-sand">Contacto</p>
+    <h2 class="mt-4 font-serif font-medium leading-tight" style="font-size: clamp(2rem, 1.4rem + 2.5vw, 3rem);">
+      ¿Tienes un evento próximamente?
+    </h2>
+    <p class="mt-5 text-lg leading-relaxed text-sand">
+      Escríbenos para pedir información o una cotización. Con gusto te orientamos.
+    </p>
+    <div class="contact-actions mt-9 flex flex-wrap justify-center gap-3">
+      <WhatsAppLink id="contact-whatsapp" class="!bg-ivory !text-espresso hover:!bg-white" />
+      <a
+        href={site.facebookUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn border border-ivory/40 text-ivory hover:border-ivory"
+        aria-label="Visitar nuestra página de Facebook (abre en una pestaña nueva)"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V9c0-.6.4-1 1-1Z" />
+        </svg>
+        Facebook
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-actions :global(.btn-disabled) {
+    color: var(--color-sand);
+    border-color: color-mix(in srgb, var(--color-sand) 60%, transparent);
+  }
+</style>

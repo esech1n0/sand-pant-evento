@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import WhatsAppLink from './WhatsAppLink.astro';
+import type { WhatsAppMessageKey } from '../config/site';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: ImageMetadata;
+  alt?: string;
+  message: WhatsAppMessageKey;
+  ctaLabel: string;
+}
+
+const { title, description, image, alt = '', message, ctaLabel } = Astro.props;
+---
+
+<article class="group flex flex-col overflow-hidden rounded-sm border border-sand/80 bg-white">
+  <div class="aspect-[4/5] overflow-hidden bg-sand/40">
+    {image ? (
+      <Image
+        src={image}
+        alt={alt}
+        widths={[400, 640, 800]}
+        sizes="(min-width: 768px) 33vw, 100vw"
+        loading="lazy"
+        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+      />
+    ) : (
+      <div class="flex h-full flex-col items-center justify-center gap-2 p-6 text-center">
+        <span class="font-serif text-2xl text-espresso/70">{title}</span>
+        <span class="text-xs uppercase tracking-[0.18em] text-muted">Fotografía pendiente</span>
+      </div>
+    )}
+  </div>
+  <div class="flex flex-1 flex-col p-6">
+    <h3 class="font-serif text-2xl font-medium text-espresso">{title}</h3>
+    <p class="mt-3 flex-1 leading-relaxed text-muted">{description}</p>
+    <div class="mt-6">
+      <WhatsAppLink message={message} label={ctaLabel} variant="outline" class="w-full" />
+    </div>
+  </div>
+</article>
