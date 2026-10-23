@@ -1,6 +1,7 @@
 ---
 import ProductCard from './ProductCard.astro';
 import { findGalleryItem } from '../data/gallery';
+import vasoImage from '../assets/images/vaso1.jpg';
 
 const sandals = findGalleryItem('sandalias-boda-01');
 const slippers = findGalleryItem('pantuflas-boda-01');
@@ -36,6 +37,8 @@ const slippers = findGalleryItem('pantuflas-boda-01');
       <ProductCard
         title="Otros productos para eventos"
         description="Pregúntanos por otros detalles disponibles para tu celebración."
+        image={vasoImage}
+        alt="Vaso personalizado para eventos"
         message="others"
         ctaLabel="Conocer otros productos"
       />

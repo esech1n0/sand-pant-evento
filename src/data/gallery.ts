@@ -2,12 +2,16 @@ import type { ImageMetadata } from 'astro';
 
 import sandaliasXv01 from '../assets/images/sandalias-xv-anos-01.jpg';
 import sandaliasBoda01 from '../assets/images/sandalias-boda-01.jpg';
-import sandaliasBoda02 from '../assets/images/sandalias-boda-02.jpg';
+import sandaliasBoda03 from '../assets/images/sandalias-boda-03.jpg';
+import sandaliasBoda04 from '../assets/images/sandalias-boda-04.jpg';
 import sandaliasCumple01 from '../assets/images/sandalias-cumpleanos-01.jpg';
 import pantuflasBoda01 from '../assets/images/pantuflas-boda-01.jpg';
 import pantuflasBoda02 from '../assets/images/pantuflas-boda-02.jpg';
+import pantuflasBoda03 from '../assets/images/pantuflas-boda-03.jpg';
 import pantuflasXv01 from '../assets/images/pantuflas-xv-anos-01.jpg';
 import pantuflasXv02 from '../assets/images/pantuflas-xv-anos-02.jpg';
+import pantufla01 from '../assets/images/pantufla-01.jpg';
+import pantufla02 from '../assets/images/pantufla-02.jpg';
 
 export const galleryCategories = [
   { id: 'todos', label: 'Todos' },
@@ -65,10 +69,24 @@ export const galleryItems: GalleryItem[] = [
     productType: 'pantuflas',
   },
   {
-    id: 'sandalias-boda-02',
-    src: sandaliasBoda02,
-    alt: 'Sandalias personalizadas para una boda',
+    id: 'sandalias-boda-03',
+    src: sandaliasBoda03,
+    alt: 'Sandalias blancas personalizadas con iniciales y nombres para una boda',
     categories: ['bodas'],
+    productType: 'sandalias',
+  },
+  {
+    id: 'pantuflas-boda-03',
+    src: pantuflasBoda03,
+    alt: 'Pantuflas blancas personalizadas con diseño de novios para una boda',
+    categories: ['bodas'],
+    productType: 'pantuflas',
+  },
+  {
+    id: 'sandalias-boda-04',
+    src: sandaliasBoda04,
+    alt: 'Sandalias blancas con tiras doradas personalizadas para fiesta de XV años',
+    categories: ['xv-anos'],
     productType: 'sandalias',
   },
   {
@@ -90,6 +108,20 @@ export const galleryItems: GalleryItem[] = [
     src: pantuflasXv02,
     alt: 'Pantuflas personalizadas para unos XV años',
     categories: ['xv-anos'],
+    productType: 'pantuflas',
+  },
+  {
+    id: 'pantufla-01',
+    src: pantufla01,
+    alt: 'Pantuflas negras con diseño de moño elegante para eventos',
+    categories: ['bodas', 'xv-anos'],
+    productType: 'pantuflas',
+  },
+  {
+    id: 'pantufla-02',
+    src: pantufla02,
+    alt: 'Pantuflas blancas de toalla con moño para eventos y descanso',
+    categories: ['bodas', 'xv-anos'],
     productType: 'pantuflas',
   },
 ];

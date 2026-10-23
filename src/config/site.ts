@@ -5,8 +5,7 @@
  */
 
 export const site = {
-  /** Nombre comercial PROVISIONAL. */
-  siteName: 'Sandalias y Pantuflas para Evento',
+  siteName: 'San&PanT',
   siteDescription:
     'Sandalias y pantuflas personalizadas para bodas, XV años, graduaciones, cumpleaños y otras celebraciones. Cotiza por WhatsApp.',
 
