@@ -9,10 +9,19 @@ import { site, navLinks } from '../config/site';
       {site.siteName}
     </a>
 
-    <nav aria-label="Principal" class="hidden md:block">
-      <ul class="flex items-center gap-7 text-sm">
-        {navLinks.map((link) => (
-          <li><a href={link.href} class="text-muted transition-colors hover:text-espresso">{link.label}</a></li>
+    <nav aria-label="Principal" class="nav-scrollspy hidden md:block">
+      <ul class="nav-list relative flex items-center gap-7 text-sm">
+        {navLinks.map((link, i) => (
+          <li class:list={['nav-item', { active: i === 0 }]}>
+            <a
+              href={link.href}
+              data-nav-link={link.href.slice(1)}
+              aria-current={i === 0 ? 'location' : undefined}
+              class:list={['nav-link relative inline-block py-1.5', { 'target-current': i === 0 }]}
+            >
+              {link.label}
+            </a>
+          </li>
         ))}
       </ul>
     </nav>
@@ -20,7 +29,7 @@ import { site, navLinks } from '../config/site';
     <button
       id="menu-toggle"
       type="button"
-      class="inline-flex size-11 items-center justify-center rounded-full text-espresso hover:bg-sand/50 md:hidden"
+      class="inline-flex size-11 cursor-pointer items-center justify-center rounded-full text-espresso hover:bg-sand/50 md:hidden"
       aria-expanded="false"
       aria-controls="mobile-menu"
       aria-label="Abrir menú"
@@ -30,10 +39,19 @@ import { site, navLinks } from '../config/site';
     </button>
   </div>
 
-  <nav id="mobile-menu" aria-label="Principal móvil" class="hidden border-t border-sand/70 bg-ivory md:hidden">
+  <nav id="mobile-menu" aria-label="Principal móvil" class="nav-scrollspy hidden border-t border-sand/70 bg-ivory md:hidden">
     <ul class="container-page flex flex-col py-3">
-      {navLinks.map((link) => (
-        <li><a href={link.href} class="block py-3 text-base text-espresso">{link.label}</a></li>
+      {navLinks.map((link, i) => (
+        <li class:list={['nav-item-mobile', { active: i === 0 }]}>
+          <a
+            href={link.href}
+            data-nav-link={link.href.slice(1)}
+            aria-current={i === 0 ? 'location' : undefined}
+            class:list={['nav-link nav-link-mobile relative inline-block py-2.5 text-base', { 'target-current': i === 0 }]}
+          >
+            {link.label}
+          </a>
+        </li>
       ))}
     </ul>
   </nav>
@@ -61,5 +79,101 @@ import { site, navLinks } from '../config/site';
       }
     });
     window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => e.matches && setOpen(false));
+  }
+
+  // Resaltado activo fluido de sección en navegación al avanzar o regresar por la página
+  const navAnchors = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[data-nav-link]'));
+  const sectionIds = Array.from(new Set(navAnchors.map((a) => a.dataset.navLink).filter(Boolean))) as string[];
+  const sections = sectionIds
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  if (sections.length > 0 && navAnchors.length > 0) {
+    let activeId = sections[0].id;
+    let lockedId: string | null = null;
+    let lockTimeout: number | undefined;
+
+    const setActive = (id: string) => {
+      activeId = id;
+      navAnchors.forEach((a) => {
+        const isActive = a.dataset.navLink === id;
+        a.classList.toggle('target-current', isActive);
+        a.closest('li')?.classList.toggle('active', isActive);
+        if (isActive) {
+          a.setAttribute('aria-current', 'location');
+        } else {
+          a.removeAttribute('aria-current');
+        }
+      });
+    };
+
+    const detectSection = () => {
+      if (lockedId) return;
+      const vh = window.innerHeight;
+      const scrollY = window.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - vh;
+
+      if (scrollY <= 30) {
+        if (activeId !== sections[0].id) setActive(sections[0].id);
+        return;
+      }
+
+      if (maxScroll > 0 && scrollY >= maxScroll - 40) {
+        const lastId = sections[sections.length - 1].id;
+        if (activeId !== lastId) setActive(lastId);
+        return;
+      }
+
+      const triggerLine = vh * 0.42;
+      let current = sections[0].id;
+      for (const sec of sections) {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= triggerLine) {
+          current = sec.id;
+        } else {
+          break;
+        }
+      }
+      if (current !== activeId) {
+        setActive(current);
+      }
+    };
+
+    let ticking = false;
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            detectSection();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { passive: true },
+    );
+
+    document.addEventListener('scrollend', () => {
+      lockedId = null;
+      detectSection();
+    });
+
+    window.addEventListener('resize', detectSection, { passive: true });
+
+    navAnchors.forEach((a) => {
+      a.addEventListener('click', () => {
+        const targetId = a.dataset.navLink;
+        if (!targetId) return;
+        lockedId = targetId;
+        setActive(targetId);
+        window.clearTimeout(lockTimeout);
+        lockTimeout = window.setTimeout(() => {
+          lockedId = null;
+        }, 750);
+      });
+    });
+
+    detectSection();
   }
 </script>

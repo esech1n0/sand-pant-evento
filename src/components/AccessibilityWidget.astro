@@ -1,0 +1,390 @@
+---
+import {
+  Accessibility,
+  Contrast,
+  Moon,
+  RotateCcw,
+  SunMedium,
+  Type,
+  Underline,
+  X,
+  ZoomIn,
+  ZoomOut,
+} from '@lucide/astro';
+---
+
+<aside id="a11y-widget" aria-label="Herramientas de accesibilidad" class="fixed bottom-4 left-4 z-50 md:bottom-6 md:left-5">
+  <button
+    id="a11y-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="a11y-panel"
+    aria-label="Abrir opciones de accesibilidad"
+    class="a11y-trigger relative inline-flex size-13 cursor-pointer items-center justify-center rounded-full border border-sand/60 bg-espresso text-ivory shadow-lg transition-transform duration-200 hover:scale-105"
+  >
+    <Accessibility size={24} aria-hidden="true" />
+    <span
+      id="a11y-active-dot"
+      aria-hidden="true"
+      class=" hidden absolute -right-0.5 -top-0.5 size-3.5 rounded-full border-2 border-ivory bg-champagne"
+    ></span>
+  </button>
+
+  <div
+    id="a11y-panel"
+    role="region"
+    aria-labelledby="a11y-title"
+    hidden
+    class="a11y-panel absolute bottom-16 left-0 w-[min(21rem,calc(100vw-2rem))] max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-sm border border-sand bg-ivory p-4 text-espresso shadow-2xl"
+  >
+    <div class="flex items-center justify-between border-b border-sand/80 pb-3">
+      <div class="flex items-center gap-2">
+        <Accessibility size={18} aria-hidden="true" class="text-champagne-deep" />
+        <h2 id="a11y-title" class="font-serif text-xl font-semibold text-espresso">Accesibilidad</h2>
+      </div>
+      <button
+        id="a11y-close"
+        type="button"
+        aria-label="Cerrar opciones de accesibilidad"
+        class="inline-flex size-9 cursor-pointer items-center justify-center rounded-full text-espresso transition-colors hover:bg-sand/50"
+      >
+        <X size={18} aria-hidden="true" />
+      </button>
+    </div>
+
+    <div class="mt-3 space-y-2.5">
+      <!-- Tamaño de texto -->
+      <div class="rounded-sm border border-sand/80 bg-white p-2.5">
+        <div class="flex items-center justify-between text-xs font-medium text-muted">
+          <span>Tamaño de texto</span>
+          <span id="a11y-font-value" aria-live="polite">100%</span>
+        </div>
+        <div class="mt-2 grid grid-cols-2 gap-2">
+          <button
+            id="a11y-font-dec"
+            type="button"
+            class="a11y-action-btn flex min-h-10 cursor-pointer items-center justify-center gap-1.5 rounded-sm border border-espresso/20 px-2.5 py-1.5 text-xs font-medium text-espresso transition-colors hover:border-espresso hover:bg-sand/30 disabled:cursor-not-allowed disabled:opacity-45"
+          >
+            <ZoomOut size={16} aria-hidden="true" />
+            <span>Texto más chico</span>
+          </button>
+          <button
+            id="a11y-font-inc"
+            type="button"
+            class="a11y-action-btn flex min-h-10 cursor-pointer items-center justify-center gap-1.5 rounded-sm border border-espresso/20 px-2.5 py-1.5 text-xs font-medium text-espresso transition-colors hover:border-espresso hover:bg-sand/30 disabled:cursor-not-allowed disabled:opacity-45"
+          >
+            <ZoomIn size={16} aria-hidden="true" />
+            <span>Texto más grande</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Opciones activables -->
+      <div class="grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          data-a11y-option="dark"
+          aria-pressed="false"
+          class="a11y-toggle-btn flex min-h-16 cursor-pointer flex-col items-start justify-between rounded-sm border border-sand/80 bg-white p-2.5 text-left text-xs font-medium text-espresso transition-colors hover:border-espresso"
+        >
+          <Moon size={17} aria-hidden="true" class="text-champagne-deep" />
+          <span>Tema oscuro</span>
+        </button>
+
+        <button
+          type="button"
+          data-a11y-option="grayscale"
+          aria-pressed="false"
+          class="a11y-toggle-btn flex min-h-16 cursor-pointer flex-col items-start justify-between rounded-sm border border-sand/80 bg-white p-2.5 text-left text-xs font-medium text-espresso transition-colors hover:border-espresso"
+        >
+          <Contrast size={17} aria-hidden="true" class="text-champagne-deep" />
+          <span>Escalado de grises</span>
+        </button>
+
+        <button
+          type="button"
+          data-a11y-option="negative"
+          aria-pressed="false"
+          class="a11y-toggle-btn flex min-h-16 cursor-pointer flex-col items-start justify-between rounded-sm border border-sand/80 bg-white p-2.5 text-left text-xs font-medium text-espresso transition-colors hover:border-espresso"
+        >
+          <SunMedium size={17} aria-hidden="true" class="text-champagne-deep" />
+          <span>Contraste negativo</span>
+        </button>
+
+        <button
+          type="button"
+          data-a11y-option="underline"
+          aria-pressed="false"
+          class="a11y-toggle-btn flex min-h-16 cursor-pointer flex-col items-start justify-between rounded-sm border border-sand/80 bg-white p-2.5 text-left text-xs font-medium text-espresso transition-colors hover:border-espresso"
+        >
+          <Underline size={17} aria-hidden="true" class="text-champagne-deep" />
+          <span>Subrayar enlaces</span>
+        </button>
+
+        <button
+          type="button"
+          data-a11y-option="readableFont"
+          aria-pressed="false"
+          class="a11y-toggle-btn col-span-2 flex min-h-12 cursor-pointer items-center gap-2.5 rounded-sm border border-sand/80 bg-white px-3 py-2.5 text-left text-xs font-medium text-espresso transition-colors hover:border-espresso"
+        >
+          <Type size={17} aria-hidden="true" class="shrink-0 text-champagne-deep" />
+          <span>Fuente más legible</span>
+        </button>
+      </div>
+
+      <!-- Restablecer -->
+      <button
+        id="a11y-reset"
+        type="button"
+        class="flex min-h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-espresso/30 bg-sand/35 px-3 py-2 text-xs font-medium text-espresso transition-colors hover:border-espresso hover:bg-sand/60"
+      >
+        <RotateCcw size={15} aria-hidden="true" />
+        <span>Restablecer valores por defecto</span>
+      </button>
+    </div>
+
+    <p id="a11y-status" class="sr-only" aria-live="polite"></p>
+  </div>
+</aside>
+
+<script>
+  interface A11yState {
+    fontStep: number;
+    dark: boolean;
+    grayscale: boolean;
+    negative: boolean;
+    underline: boolean;
+    readableFont: boolean;
+  }
+
+  const STORAGE_KEY = 'sandypant-a11y';
+  const MIN_STEP = -2;
+  const MAX_STEP = 3;
+  const STEP_PERCENT = 10;
+
+  const defaultState: A11yState = {
+    fontStep: 0,
+    dark: false,
+    grayscale: false,
+    negative: false,
+    underline: false,
+    readableFont: false,
+  };
+
+  const widget = document.getElementById('a11y-widget');
+  const toggleBtn = document.getElementById('a11y-toggle') as HTMLButtonElement | null;
+  const closeBtn = document.getElementById('a11y-close') as HTMLButtonElement | null;
+  const panel = document.getElementById('a11y-panel') as HTMLElement | null;
+  const fontDecBtn = document.getElementById('a11y-font-dec') as HTMLButtonElement | null;
+  const fontIncBtn = document.getElementById('a11y-font-inc') as HTMLButtonElement | null;
+  const fontValue = document.getElementById('a11y-font-value');
+  const resetBtn = document.getElementById('a11y-reset') as HTMLButtonElement | null;
+  const statusEl = document.getElementById('a11y-status');
+  const activeDot = document.getElementById('a11y-active-dot');
+  const optionButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-a11y-option]'));
+
+  const loadState = (): A11yState => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return { ...defaultState };
+      const parsed = JSON.parse(raw) as Partial<A11yState>;
+      return {
+        fontStep: typeof parsed.fontStep === 'number' ? Math.max(MIN_STEP, Math.min(MAX_STEP, parsed.fontStep)) : 0,
+        dark: Boolean(parsed.dark),
+        grayscale: Boolean(parsed.grayscale),
+        negative: Boolean(parsed.negative),
+        underline: Boolean(parsed.underline),
+        readableFont: Boolean(parsed.readableFont),
+      };
+    } catch {
+      return { ...defaultState };
+    }
+  };
+
+  let state: A11yState = loadState();
+
+  const isDefault = (s: A11yState) =>
+    s.fontStep === 0 && !s.dark && !s.grayscale && !s.negative && !s.underline && !s.readableFont;
+
+  const saveState = (s: A11yState) => {
+    try {
+      if (isDefault(s)) {
+        localStorage.removeItem(STORAGE_KEY);
+      } else {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+      }
+    } catch {
+      // Ignorar si el navegador bloquea el almacenamiento local
+    }
+  };
+
+  const applyState = (s: A11yState, announcement?: string) => {
+    const root = document.documentElement;
+    const percent = 100 + s.fontStep * STEP_PERCENT;
+
+    if (s.fontStep === 0) {
+      root.style.removeProperty('font-size');
+    } else {
+      root.style.fontSize = `${percent}%`;
+    }
+
+    root.toggleAttribute('data-a11y-dark', s.dark);
+    root.toggleAttribute('data-a11y-grayscale', s.grayscale);
+    root.toggleAttribute('data-a11y-negative', s.negative);
+    root.toggleAttribute('data-a11y-underline', s.underline);
+    root.toggleAttribute('data-a11y-readable-font', s.readableFont);
+
+    const colorSchemeMeta = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
+    if (colorSchemeMeta) {
+      colorSchemeMeta.content = s.dark || s.negative ? 'dark' : 'light';
+    }
+
+    const themeColorMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (themeColorMeta) {
+      themeColorMeta.content = s.negative ? '#000000' : s.dark ? '#1b1714' : '#F8F5EF';
+    }
+
+    if (fontValue) fontValue.textContent = `${percent}%`;
+    if (fontDecBtn) fontDecBtn.disabled = s.fontStep <= MIN_STEP;
+    if (fontIncBtn) fontIncBtn.disabled = s.fontStep >= MAX_STEP;
+
+    optionButtons.forEach((btn) => {
+      const key = btn.dataset.a11yOption as keyof Omit<A11yState, 'fontStep'> | undefined;
+      if (key && key in s) {
+        btn.setAttribute('aria-pressed', String(s[key]));
+      }
+    });
+
+    activeDot?.classList.toggle('hidden', isDefault(s));
+
+    if (announcement && statusEl) {
+      statusEl.textContent = announcement;
+    }
+  };
+
+  if (widget && toggleBtn && closeBtn && panel) {
+    let supportsDisplayTransition: boolean | undefined;
+    const canTransitionDisplay = () => {
+      if (supportsDisplayTransition !== undefined) return supportsDisplayTransition;
+      if (!window.CSS?.supports?.('transition-behavior', 'allow-discrete') || !document.body) {
+        return false;
+      }
+      const probe = document.createElement('div');
+      probe.style.cssText = 'transition: display 1s allow-discrete !important; display: block;';
+      document.body.appendChild(probe);
+      getComputedStyle(probe).display;
+      probe.style.display = 'none';
+      supportsDisplayTransition = getComputedStyle(probe).display === 'block';
+      probe.remove();
+      return supportsDisplayTransition;
+    };
+
+    const showPanel = () => {
+      panel.removeAttribute('data-closing');
+      panel.hidden = false;
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      toggleBtn.setAttribute('aria-label', 'Cerrar opciones de accesibilidad');
+    };
+
+    const hidePanel = async () => {
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.setAttribute('aria-label', 'Abrir opciones de accesibilidad');
+
+      if (canTransitionDisplay()) {
+        panel.hidden = true;
+      } else {
+        panel.setAttribute('data-closing', '');
+      }
+
+      const animations = panel.getAnimations();
+      if (animations.length > 0) {
+        await Promise.race([
+          Promise.allSettled(animations.map((a) => a.finished)),
+          new Promise((r) => setTimeout(r, 400)),
+        ]);
+      }
+
+      if (panel.hasAttribute('data-closing')) {
+        panel.removeAttribute('data-closing');
+        panel.hidden = true;
+      }
+    };
+
+    const isPanelOpen = () => !panel.hidden && !panel.hasAttribute('data-closing');
+
+    toggleBtn.addEventListener('click', () => {
+      if (isPanelOpen()) {
+        void hidePanel();
+      } else {
+        showPanel();
+      }
+    });
+
+    closeBtn.addEventListener('click', () => {
+      void hidePanel();
+      toggleBtn.focus();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isPanelOpen()) {
+        void hidePanel();
+        toggleBtn.focus();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (isPanelOpen() && !widget.contains(e.target as Node)) {
+        void hidePanel();
+      }
+    });
+
+    fontDecBtn?.addEventListener('click', () => {
+      if (state.fontStep > MIN_STEP) {
+        state.fontStep -= 1;
+        saveState(state);
+        applyState(state, `Tamaño de texto: ${100 + state.fontStep * STEP_PERCENT}%`);
+      }
+    });
+
+    fontIncBtn?.addEventListener('click', () => {
+      if (state.fontStep < MAX_STEP) {
+        state.fontStep += 1;
+        saveState(state);
+        applyState(state, `Tamaño de texto: ${100 + state.fontStep * STEP_PERCENT}%`);
+      }
+    });
+
+    optionButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.a11yOption as keyof Omit<A11yState, 'fontStep'> | undefined;
+        if (!key) return;
+        const nextVal = !state[key];
+        state[key] = nextVal;
+
+        // Si se activa contraste negativo o tema oscuro, mantenerlos mutuamente excluyentes para garantizar legibilidad
+        if (key === 'negative' && nextVal) state.dark = false;
+        if (key === 'dark' && nextVal) state.negative = false;
+
+        saveState(state);
+        const label = btn.textContent?.trim() ?? key;
+        applyState(state, `${label}: ${nextVal ? 'activado' : 'desactivado'}`);
+      });
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      state = { ...defaultState };
+      saveState(state);
+      applyState(state, 'Valores de accesibilidad restablecidos por defecto');
+    });
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEY) {
+        state = loadState();
+        applyState(state);
+      }
+    });
+
+    applyState(state);
+  }
+</script>
+

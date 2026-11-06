@@ -5,15 +5,10 @@
  */
 
 export const site = {
-  siteName: 'San&PanT',
+  siteName: 'A Tus Pies',
   siteDescription:
     'Sandalias y pantuflas personalizadas para bodas, XV años, graduaciones, cumpleaños y otras celebraciones. Cotiza por WhatsApp.',
 
-  /**
-   * PENDIENTE: número de WhatsApp en formato internacional, solo dígitos
-   * (sin "+", espacios ni guiones). Ejemplo de formato: 52XXXXXXXXXX.
-   * Mientras esté vacío, los botones de WhatsApp no generan enlaces.
-   */
   whatsappNumber: '523313838230',
 
   facebookUrl: 'https://www.facebook.com/profile.php?id=100054371716727',

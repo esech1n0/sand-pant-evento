@@ -17,13 +17,120 @@
   --font-sans: "Inter Variable", system-ui, sans-serif;
 }
 
+:root {
+  color-scheme: light dark;
+  --color-btn-primary-hover: #4a413b;
+  --skeleton-base: #e9dfd1;
+  --skeleton-highlight: #f7f2ea;
+
+  &:has(> head > meta[name="color-scheme"][content="dark"]) {
+    color-scheme: dark;
+  }
+  &:has(> head > meta[name="color-scheme"][content="light"]) {
+    color-scheme: light;
+  }
+}
+
+/* Tema oscuro cálido acorde a la paleta editorial del sitio */
+html[data-a11y-dark] {
+  --color-ivory: #1b1714;
+  --color-white: #25201c;
+  --color-sand: #3e342c;
+  --color-champagne: #c8ae93;
+  --color-champagne-deep: #dfb992;
+  --color-espresso: #f5efe6;
+  --color-muted: #c4b5a5;
+  --color-btn-primary-hover: #e4d5c2;
+  --skeleton-base: #2d2621;
+  --skeleton-highlight: #3f352e;
+}
+
+html[data-a11y-dark] #contacto {
+  background-color: #2c241e;
+  color: #f5efe6;
+}
+
+html[data-a11y-dark] #contacto p {
+  color: #dccbb8;
+}
+
+html[data-a11y-dark] #contacto #contact-whatsapp {
+  background-color: #f5efe6 !important;
+  color: #1b1714 !important;
+}
+
+html[data-a11y-dark] #contacto #contact-whatsapp:hover {
+  background-color: #e4d5c2 !important;
+}
+
+html[data-a11y-dark] #contacto .contact-actions a:not(#contact-whatsapp) {
+  border-color: rgb(245 239 230 / 0.45);
+  color: #f5efe6;
+}
+
+html[data-a11y-dark] #contacto .contact-actions a:not(#contact-whatsapp):hover {
+  border-color: #f5efe6;
+  background-color: rgb(245 239 230 / 0.08);
+}
+
+/* Contraste negativo de alta visibilidad */
+html[data-a11y-negative] {
+  --color-ivory: #000000;
+  --color-white: #0a0a0a;
+  --color-sand: #ffe600;
+  --color-champagne: #ffe600;
+  --color-champagne-deep: #ffe600;
+  --color-espresso: #ffe600;
+  --color-muted: #ffffff;
+  --color-btn-primary-hover: #ffffff;
+  --skeleton-base: #1a1a1a;
+  --skeleton-highlight: #3d3800;
+}
+
+html[data-a11y-negative] #contacto {
+  background-color: #0a0a0a;
+  color: #ffe600;
+}
+
+html[data-a11y-negative] #contacto p {
+  color: #ffffff;
+}
+
+html[data-a11y-negative] #contacto #contact-whatsapp {
+  background-color: #ffe600 !important;
+  color: #000000 !important;
+}
+
+/* Escalado de grises aplicado a regiones principales sin romper position:fixed ni top-layer */
+html[data-a11y-grayscale] :is(header, main, footer, #floating-whatsapp, #a11y-widget, #lightbox) {
+  filter: grayscale(100%);
+}
+
+/* Subrayar todos los enlaces */
+html[data-a11y-underline] a[href] {
+  text-decoration: underline !important;
+  text-underline-offset: 4px !important;
+  text-decoration-thickness: 2px !important;
+}
+
+/* Fuente más legible */
+html[data-a11y-readable-font] {
+  --font-serif: "Inter Variable", Verdana, Arial, system-ui, sans-serif;
+  --font-sans: "Inter Variable", Verdana, Arial, system-ui, sans-serif;
+  letter-spacing: 0.015em;
+  word-spacing: 0.04em;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+    }
   }
   body {
-    @apply bg-ivory text-espresso font-sans antialiased;
+    @apply bg-ivory text-espresso font-sans antialiased transition-colors duration-200;
   }
   section[id] {
     scroll-margin-top: 5rem;
@@ -51,11 +158,14 @@
     font-size: clamp(2rem, 1.4rem + 2.5vw, 3rem);
   }
   .btn {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-medium transition-colors duration-200;
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full px-6 text-sm font-medium transition-colors duration-200;
   }
   /* Usar junto con .btn: class="btn btn-primary" */
   .btn-primary {
-    @apply bg-espresso text-ivory hover:bg-[#4a413b];
+    @apply bg-espresso text-ivory;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-btn-primary-hover);
   }
   .btn-outline {
     @apply border border-espresso/30 text-espresso hover:border-espresso hover:bg-white;
@@ -63,17 +173,306 @@
   .btn-disabled {
     @apply cursor-not-allowed border border-dashed border-muted/60 text-muted;
   }
+
+  /* Estado activo en botones del widget de accesibilidad */
+  .a11y-toggle-btn[aria-pressed="true"] {
+    background-color: var(--color-espresso);
+    color: var(--color-ivory);
+    border-color: var(--color-espresso);
+  }
+  .a11y-toggle-btn[aria-pressed="true"] svg {
+    color: var(--color-ivory);
+  }
+}
+
+/* ==========================================================================
+   1. Transición fluida de distinción en los labels del Header
+   ========================================================================== */
+.nav-link {
+  color: var(--color-espresso);
+  opacity: 0.72;
+  transition:
+    color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    text-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link:hover {
+  color: var(--color-espresso);
+  opacity: 1;
+}
+
+.nav-link:is(.target-current, [aria-current="location"]) {
+  color: var(--color-champagne-deep);
+  opacity: 1;
+  text-shadow: 0 0 0.45px currentColor;
+}
+
+/* Indicador deslizante fluido con Anchor Positioning cuando está soportado */
+.nav-item.active {
+  anchor-name: --active-nav;
+}
+
+@supports (position-anchor: auto) {
+  .nav-list::before {
+    content: "";
+    position: absolute;
+    position-anchor: --active-nav;
+    inset-block-start: calc(anchor(bottom) - 2px);
+    inset-inline-start: anchor(left);
+    inset-inline-end: anchor(right);
+    block-size: 2px;
+    border-radius: 9999px;
+    background-color: var(--color-champagne-deep);
+    pointer-events: none;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition:
+        inset 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 0.35s ease;
+    }
+  }
+}
+
+/* Subrayado animado fluido para menú móvil y navegadores sin Anchor Positioning */
+.nav-link-mobile::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 2px;
+  border-radius: 9999px;
+  background-color: var(--color-champagne-deep);
+  transform: scaleX(0);
+  transform-origin: left center;
+  opacity: 0;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease;
+}
+
+.nav-link-mobile:is(.target-current, [aria-current="location"])::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+@supports not (position-anchor: auto) {
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    border-radius: 9999px;
+    background-color: var(--color-champagne-deep);
+    transform: scaleX(0);
+    transform-origin: center;
+    opacity: 0;
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.3s ease;
+  }
+
+  .nav-link:is(.target-current, [aria-current="location"])::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   2. Transición fluida de entrada y salida del panel de accesibilidad
+   ========================================================================== */
+.a11y-panel {
+  display: block;
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+  transform-origin: bottom left;
+  transition:
+    display 0.3s,
+    opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    scale 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-behavior: allow-discrete;
+}
+
+@starting-style {
+  .a11y-panel {
+    opacity: 0;
+    translate: -8px 12px;
+    scale: 0.94;
+  }
+}
+
+.a11y-panel:where([hidden], [data-closing]) {
+  opacity: 0;
+  translate: -8px 12px;
+  scale: 0.94;
+  pointer-events: none;
+}
+
+.a11y-panel[hidden] {
+  display: none;
+}
+
+/* ==========================================================================
+   3. Skeleton de carga para imágenes y visor ampliado
+   ========================================================================== */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-box,
+.skeleton-wrapper::before {
+  background-color: var(--skeleton-base);
+  background-image: linear-gradient(
+    110deg,
+    var(--skeleton-base) 25%,
+    var(--skeleton-highlight) 50%,
+    var(--skeleton-base) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.skeleton-wrapper.is-loaded::before {
+  opacity: 0;
+  animation: none;
+}
+
+/* ==========================================================================
+   4. Animación 'pop' al aparecer en fotos (Productos y Galería, excluyendo Hero)
+   ========================================================================== */
+@keyframes photo-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.84);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.pop-photo.pop-ready {
+  opacity: 0;
+  transform: scale(0.84);
+}
+
+.pop-photo.is-popped {
+  animation: photo-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.lightbox-pop-img.is-popping {
+  animation: photo-pop 0.36s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Visor modal (<dialog>) en top-layer con animación 'pop' y contención de scroll */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+dialog#lightbox {
+  opacity: 0;
+  transform: scale(0.88);
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-behavior: allow-discrete;
+}
+
+dialog#lightbox::backdrop {
+  background-color: rgb(24 20 18 / 0);
+  transition-property: background-color, display, overlay;
+  transition-duration: 0.28s;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+:is(dialog#lightbox[open]):where(:not([data-closing])) {
+  opacity: 1;
+  transform: scale(1);
+
+  @starting-style {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+
+  &::backdrop {
+    background-color: rgb(24 20 18 / 0.9);
+
+    @starting-style {
+      background-color: rgb(24 20 18 / 0);
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  .a11y-panel {
+    translate: none;
+    scale: none;
+    transition-duration: 0.1s;
   }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+
+  @starting-style {
+    .a11y-panel {
+      translate: none;
+      scale: none;
+    }
+  }
+
+  .a11y-panel:where([hidden], [data-closing]) {
+    translate: none;
+    scale: none;
+  }
+
+  .skeleton-box,
+  .skeleton-wrapper::before {
+    animation: none;
+  }
+
+  .pop-photo.pop-ready,
+  .pop-photo.is-popped,
+  .lightbox-pop-img.is-popping {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  dialog#lightbox {
+    transform: none;
+    transition-duration: 0.1s;
+  }
+
+  @starting-style {
+    :is(dialog#lightbox[open]):where(:not([data-closing])) {
+      transform: none;
+    }
   }
 }

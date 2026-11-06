@@ -11,7 +11,7 @@ La página debe presentar el negocio y sus productos, mostrar fotografías
 reales de trabajos anteriores y facilitar que las personas soliciten
 información o una cotización por WhatsApp.
 
-**Nombre comercial actual:** `Sandalias y Pantuflas para Evento`
+**Nombre comercial actual:** `A tus Pies`
 (provisional; no asumir que es el nombre definitivo).
 
 **Objetivo principal:** convertir visitas en conversaciones de WhatsApp.
@@ -27,7 +27,7 @@ producto. Si una decisión no está especificada, elegir la alternativa
 más sencilla, accesible, segura y mantenible, sin inventar datos
 comerciales.
 
-## 2. Reglas importantes para Claude
+## 2. Reglas importantes para AntiGravity
 
 1.  Lee este archivo completo antes de implementar cambios.
 2.  No inventes el número de WhatsApp, precios, ubicación, horarios,
@@ -130,7 +130,7 @@ navegación por anclas y secciones ordenadas.
 
 ### 5.1 Encabezado / navegación
 
--   Nombre provisional: `Sandalias y Pantuflas para Evento`.
+-   Nombre provisional: `A tus Pies`.
 -   Enlaces a Inicio, Productos, Galería, Nosotros y Contacto.
 -   Navegación compacta en pantallas pequeñas, con botón accesible para
     abrir/cerrar el menú.

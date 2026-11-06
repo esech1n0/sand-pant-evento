@@ -1,4 +1,4 @@
-﻿---
+---
 import '../styles/global.css';
 import { site } from '../config/site';
 import { getImage } from 'astro:assets';
@@ -22,7 +22,28 @@ const ogImageUrl = site.siteUrl ? new URL(ogImage.src, site.siteUrl).href : unde
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#F8F5EF" />
+    <script is:inline>
+      try {
+        const raw = localStorage.getItem('sandypant-a11y');
+        if (raw) {
+          const s = JSON.parse(raw);
+          const root = document.documentElement;
+          if (typeof s.fontStep === 'number' && s.fontStep !== 0) {
+            const step = Math.max(-2, Math.min(3, s.fontStep));
+            root.style.fontSize = `${100 + step * 10}%`;
+          }
+          if (s.dark) root.setAttribute('data-a11y-dark', '');
+          if (s.grayscale) root.setAttribute('data-a11y-grayscale', '');
+          if (s.negative) root.setAttribute('data-a11y-negative', '');
+          if (s.underline) root.setAttribute('data-a11y-underline', '');
+          if (s.readableFont) root.setAttribute('data-a11y-readable-font', '');
+          const cs = document.querySelector('meta[name="color-scheme"]');
+          if (cs && (s.dark || s.negative)) cs.setAttribute('content', 'dark');
+        }
+      } catch {}
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {canonical && <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" />
@@ -39,5 +60,22 @@ const ogImageUrl = site.siteUrl ? new URL(ogImage.src, site.siteUrl).href : unde
       Saltar al contenido
     </a>
     <slot />
+    <script>
+      // Control global de skeletons de carga en contenedores de imagen
+      document.querySelectorAll<HTMLElement>('.skeleton-wrapper').forEach((wrapper) => {
+        const img = wrapper.querySelector<HTMLImageElement>('img');
+        if (!img) {
+          wrapper.classList.add('is-loaded');
+          return;
+        }
+        const markLoaded = () => wrapper.classList.add('is-loaded');
+        if (img.complete && img.naturalWidth > 0) {
+          markLoaded();
+        } else {
+          img.addEventListener('load', markLoaded, { once: true });
+          img.addEventListener('error', markLoaded, { once: true });
+        }
+      });
+    </script>
   </body>
 </html>
