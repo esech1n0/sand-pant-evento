@@ -5,7 +5,7 @@
  */
 
 export const site = {
-  siteName: 'A Tus Pies',
+  siteName: 'A Tus Pies - Sandalias y Pantuflas',
   siteDescription:
     'Sandalias y pantuflas personalizadas para bodas, XV años, graduaciones, cumpleaños y otras celebraciones. Cotiza por WhatsApp.',
 
@@ -13,8 +13,21 @@ export const site = {
 
   facebookUrl: 'https://www.facebook.com/profile.php?id=100054371716727',
 
-  /** PENDIENTE: dominio definitivo (ej. "https://midominio.com"). Sin dominio no se emite canonical. */
-  siteUrl: '',
+  /** Dominio definitivo. Debe coincidir con `site` en astro.config.mjs. */
+  siteUrl: 'https://sandaliasypantuflasatuspies.com',
+
+  /** Datos de la ficha del negocio (JSON-LD LocalBusiness). */
+  business: {
+    streetAddress: 'Av. Francisco Javier Mina 277-B',
+    neighborhood: 'San Juan de Dios',
+    postalCode: '44360',
+    locality: 'Guadalajara',
+    region: 'Jalisco',
+    country: 'MX',
+    /** Teléfono en formato E.164 (mismo número que WhatsApp). */
+    telephone: '+523313838230',
+    areaServed: 'Guadalajara',
+  },
 
   /** Interruptores de funciones opcionales. Desactivarlos no afecta al resto del sitio. */
   features: {

@@ -16,9 +16,10 @@ Landing page estática (Astro + Tailwind CSS 4 + TypeScript) para un negocio de 
 
 Todos los datos comerciales están en un solo archivo:
 
-- **`whatsappNumber`** — PENDIENTE. Formato internacional solo con dígitos, sin `+` ni espacios (México: `52` + 10 dígitos).
-  Mientras esté vacío: en `npm run dev` los botones muestran *“WhatsApp pendiente de configurar”*; en producción no se muestran. Nunca se genera un enlace inválido.
-- **`siteUrl`** — PENDIENTE. Al definir el dominio, se activan el canonical, `og:url` y `og:image`. Agregar también la línea `Sitemap` en `public/robots.txt`.
+- **`whatsappNumber`** — Formato internacional solo con dígitos, sin `+` ni espacios (México: `52` + 10 dígitos).
+  Si queda vacío: en `npm run dev` los botones muestran *“WhatsApp pendiente de configurar”*; en producción no se muestran. Nunca se genera un enlace inválido.
+- **`siteUrl`** — `https://sandaliasypantuflasatuspies.com`. Activa canonical, `og:url`, `og:image` (1200×630) y los datos estructurados. Si cambia, actualizar también `site` en `astro.config.mjs` y la línea `Sitemap` en `public/robots.txt`.
+- **`business`** — dirección y teléfono del negocio. Alimentan el JSON-LD (`ShoeStore`) para Google y la dirección del pie de página.
 - **`features.floatingWhatsApp`** — `true`/`false` activa el botón flotante de WhatsApp en móvil. Es independiente del resto del sitio.
 - **`whatsappMessages`** — mensajes prellenados por contexto.
 
@@ -27,8 +28,9 @@ Todos los enlaces de WhatsApp se generan con `buildWhatsAppUrl()` en `src/lib/wh
 ## Fotografías
 
 - Optimizadas por Astro desde `src/assets/images/` (AVIF/WebP en varios tamaños).
-- Los originales sin procesar se conservan en `assets/images/`.
+- Las fotos que no alcanzan un ancho solicitado no se amplían: `fitWidths()` evita generar archivos duplicados.
 - Galería y metadatos: `src/data/gallery.ts` (orden alternado sandalia/pantufla). Para agregar una foto: copiarla a `src/assets/images/` con nombre descriptivo, importarla y añadir su entrada con `alt` y `categories` (`bodas`, `xv-anos`, `graduaciones`, `cumpleanos`, `otros`).
+- Los filtros sin fotos (hoy, Graduaciones) se ocultan solos y aparecen en cuanto se agregue una foto de esa categoría.
 - La foto marcada `featured: true` se usa en la portada.
 - Pendiente: foto para “Otros productos”. Por ahora la tarjeta muestra un recuadro que dice “Fotografía pendiente”.
 
@@ -36,6 +38,11 @@ Todos los enlaces de WhatsApp se generan con `buildWhatsAppUrl()` en `src/lib/wh
 
 1. Subir el repositorio a GitHub.
 2. En Cloudflare Pages, conectar el repositorio. Comando de build: `npm run build`. Carpeta de salida: `dist`.
-3. Verificar que la versión de Node coincida con `engines` en `package.json`.
+3. La versión de Node se toma de `.node-version` (Node 24; Astro 7 exige ≥ 22.23.4).
 4. Revisar la URL de prueba y después configurar el dominio propio.
-5. Configurar `siteUrl` y volver a desplegar.
+
+### Seguridad
+
+- Astro agrega en cada página un `<meta>` Content-Security-Policy con hashes de sus scripts y estilos (`security.csp` en `astro.config.mjs`). Por eso no se deben usar atributos `style="..."` ni scripts externos sin agregarlos a la política.
+- `public/_headers` define HSTS, `frame-ancestors`, `nosniff`, `Referrer-Policy`, `Permissions-Policy` y caché inmutable para `/_astro/*`.
+- En Cloudflare, desactivar funciones que inyectan scripts (Rocket Loader, Email Address Obfuscation) o la CSP las bloqueará. Web Analytics requiere agregar `https://static.cloudflareinsights.com` a la política.

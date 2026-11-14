@@ -186,6 +186,22 @@ html[data-a11y-readable-font] {
 }
 
 /* ==========================================================================
+   0. Logo del header: no se puede arrastrar ni seleccionar
+   ========================================================================== */
+.brand-logo,
+.brand-logo img {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+/* El logo es oscuro: en tema oscuro y contraste negativo se invierte para que siga legible. */
+html:is([data-a11y-dark], [data-a11y-negative]) .brand-logo img {
+  filter: invert(1);
+}
+
+/* ==========================================================================
    1. Transición fluida de distinción en los labels del Header
    ========================================================================== */
 .nav-link {

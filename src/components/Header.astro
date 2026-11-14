@@ -1,12 +1,23 @@
 ---
+import { Image } from 'astro:assets';
 import { Menu, X } from '@lucide/astro';
+import logo from '../assets/images/logo-a-tus-pies.png';
 import { site, navLinks } from '../config/site';
 ---
 
 <header class="sticky top-0 z-40 border-b border-sand/70 bg-ivory/95 backdrop-blur-sm">
   <div class="container-page flex h-16 items-center justify-between gap-4">
-    <a href="#inicio" class="font-serif text-lg font-semibold leading-tight text-espresso sm:text-xl">
-      {site.siteName}
+    <a href="#inicio" class="brand-logo shrink-0" draggable="false" aria-label={`${site.siteName}, ir al inicio`}>
+      <Image
+        src={logo}
+        alt={site.siteName}
+        width={128}
+        densities={[1, 2]}
+        loading="eager"
+        decoding="async"
+        draggable="false"
+        class="h-auto w-[112px] sm:w-[128px]"
+      />
     </a>
 
     <nav aria-label="Principal" class="nav-scrollspy hidden md:block">

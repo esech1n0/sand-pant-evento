@@ -3,6 +3,7 @@ import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import WhatsAppLink from './WhatsAppLink.astro';
 import type { WhatsAppMessageKey } from '../config/site';
+import { fitWidths, LIGHTBOX_WIDTH } from '../data/gallery';
 
 interface Props {
   title: string;
@@ -14,7 +15,9 @@ interface Props {
 }
 
 const { title, description, image, alt = '', message, ctaLabel } = Astro.props;
-const large = image ? await getImage({ src: image, width: 1600, format: 'webp' }) : null;
+const large = image
+  ? await getImage({ src: image, width: Math.min(LIGHTBOX_WIDTH, image.width), format: 'webp', quality: 75 })
+  : null;
 ---
 
 <article class="group flex flex-col overflow-hidden rounded-sm border border-sand/80 bg-white">
@@ -31,7 +34,7 @@ const large = image ? await getImage({ src: image, width: 1600, format: 'webp' }
         <Image
           src={image}
           alt={alt}
-          widths={[400, 640, 800]}
+          widths={fitWidths(image, [400, 640, 800])}
           sizes="(min-width: 768px) 33vw, 100vw"
           loading="lazy"
           class="pop-photo h-full w-full cursor-pointer object-cover transition-transform duration-500 group-hover:scale-[1.03]"

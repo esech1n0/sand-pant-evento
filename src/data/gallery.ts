@@ -3,7 +3,7 @@ import type { ImageMetadata } from 'astro';
 import sandaliasXv01 from '../assets/images/sandalias-xv-anos-01.jpg';
 import sandaliasBoda01 from '../assets/images/sandalias-boda-01.jpg';
 import sandaliasBoda03 from '../assets/images/sandalias-boda-03.jpg';
-import sandaliasBoda04 from '../assets/images/sandalias-boda-04.jpg';
+import sandaliasXv02 from '../assets/images/sandalias-xv-anos-02.jpg';
 import sandaliasCumple01 from '../assets/images/sandalias-cumpleanos-01.jpg';
 import pantuflasBoda01 from '../assets/images/pantuflas-boda-01.jpg';
 import pantuflasBoda02 from '../assets/images/pantuflas-boda-02.jpg';
@@ -83,9 +83,9 @@ export const galleryItems: GalleryItem[] = [
     productType: 'pantuflas',
   },
   {
-    id: 'sandalias-boda-04',
-    src: sandaliasBoda04,
-    alt: 'Sandalias blancas con tiras doradas personalizadas para fiesta de XV años',
+    id: 'sandalias-xv-anos-02',
+    src: sandaliasXv02,
+    alt: 'Sandalias blancas con tiras doradas personalizadas para unos XV años',
     categories: ['xv-anos'],
     productType: 'sandalias',
   },
@@ -126,7 +126,28 @@ export const galleryItems: GalleryItem[] = [
   },
 ];
 
-export const heroImage = galleryItems.find((item) => item.featured) ?? galleryItems[0];
+/**
+ * Filtros que se muestran en la galería: "Todos" más las categorías con al menos una foto.
+ * Una categoría vacía (p. ej. Graduaciones) aparece sola en cuanto se le agregue una foto.
+ */
+export const visibleGalleryCategories = galleryCategories.filter(
+  (cat) => cat.id === 'todos' || galleryItems.some((item) => item.categories.includes(cat.id)),
+);
+
+/** Ancho máximo de la versión ampliada del visor. */
+export const LIGHTBOX_WIDTH = 1280;
+
+/**
+ * Quita los anchos mayores que la foto original (evita generar archivos duplicados)
+ * y agrega el ancho original si quedó por debajo del mayor solicitado.
+ */
+export function fitWidths(src: ImageMetadata, widths: number[]): number[] {
+  const fitting = widths.filter((w) => w < src.width);
+  if (fitting.length < widths.length) fitting.push(src.width);
+  return fitting;
+}
+
+export const heroImage =galleryItems.find((item) => item.featured) ?? galleryItems[0];
 
 export function findGalleryItem(id: string): GalleryItem {
   const item = galleryItems.find((entry) => entry.id === id);
